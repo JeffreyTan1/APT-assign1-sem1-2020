@@ -1,11 +1,12 @@
 #ifndef COSC_ASSIGN_ONE_PATHSOLVER
-#define COSC_ASSIGN_ONE_PATHSOLVER 
+#define COSC_ASSIGN_ONE_PATHSOLVER
 
 #include "Node.h"
 #include "NodeList.h"
 #include "Types.h"
 
-class PathSolver{
+class PathSolver
+{
 public:
     /*                                           */
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
@@ -21,12 +22,12 @@ public:
 
     // Get a DEEP COPY of the explored NodeList in forward search
     // To be implemented for Milestone 2
-    NodeList* getNodesExplored();
+    NodeList *getNodesExplored();
 
-    // Execute backtracking and Get a DEEP COPY of the path the 
+    // Execute backtracking and Get a DEEP COPY of the path the
     // robot should travel
     // To be implemented for Milestone 3
-    NodeList* getPath(Env env);
+    NodeList *getPath(Env env);
 
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
@@ -38,15 +39,13 @@ private:
     /*                                           */
 
     // Nodes explored in forward search algorithm
-    NodeList* nodesExplored;
+    NodeList *nodesExplored;
 
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    
+    void initializeAlgo(Node *startNode, Node *goalNode, Node *currentNode, NodeList *openList, Env env);
+    void searchAllDirections(Node *currentNode, Env env, NodeList *openList);
 };
-
-
-
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER
