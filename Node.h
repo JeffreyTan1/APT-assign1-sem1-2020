@@ -13,8 +13,8 @@ public:
     // Constructor/Desctructor
     Node(int row, int col, int dist_traveled);
     ~Node();
-    Node();
-
+    
+    
     // get row-coodinate of the node
     int getRow();
 
@@ -32,6 +32,11 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    bool isSamePosition(Node *checkNode);
+    bool isAbove(Node *node);
+    bool isBelow(Node *node);
+    bool isToLeft(Node *node);
+    bool isToRight(Node *node);
 
 private:
     /*                                           */

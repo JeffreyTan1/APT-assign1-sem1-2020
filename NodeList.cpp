@@ -4,18 +4,17 @@
 NodeList::NodeList()
 {
     length = 0;
-    *nodes = new Node[NODE_LIST_ARRAY_MAX_SIZE];
 }
 
 NodeList::~NodeList()
 {
-    //TODO: delete[] nodes; is just not working
+    //do nothing
 }
 
+//TODO: Is this copy constructor even done?
 NodeList::NodeList(NodeList &other)
 {
-    *nodes = new Node[NODE_LIST_ARRAY_MAX_SIZE];
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    for (int i = 0; i < other.length; i++)
     {
         nodes[i] = other.getNode(i);
     }
@@ -39,9 +38,18 @@ Node *NodeList::getNode(int i)
     return nodes[i];
 }
 
+void NodeList::reverseList()
+{
+    NodeList *tempList = new NodeList(*this);
+    for (int i = 0; i < length; i++)
+    {
+        nodes[i] = tempList->getNode(length - 1 - i);
+    }
+}
+
 bool NodeList::isIncluded(Node *checkNode)
 {
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    for (int i = 0; i < length; i++)
     {
         if (nodes[i]->getRow() == checkNode->getRow() && nodes[i]->getCol() == checkNode->getCol())
         {
@@ -51,24 +59,33 @@ bool NodeList::isIncluded(Node *checkNode)
     return false;
 }
 
-Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *closedList)
+Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
+
 {
-    int smallestDist2Goal = -1;
-    Node *returnNode = new Node();
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    //TODO: create const for this max i.e 20root2
+    int smallestDist2Goal = 10000000;
+    Node* returnNode = new Node(-1, -1, -1);
+    for (int i = 0; i < length; i++)
     {
         int currentDist2Goal = nodes[i]->getEstimatedDist2Goal(goalNode);
-        if (currentDist2Goal > smallestDist2Goal && !closedList->isIncluded(nodes[i]))
+        if (currentDist2Goal < smallestDist2Goal && !nodesExplored->isIncluded(nodes[i]))
         {
             returnNode = nodes[i];
             smallestDist2Goal = currentDist2Goal;
         }
     }
-
-    if (returnNode == nullptr)
-    {
-        throw new std::exception_ptr;
-    }
-
     return returnNode;
+}
+
+Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors)
+{
+    int currentDistTravelled = currentNode->getDistanceTraveled();
+    for (int i = 0; i < length; i++)
+    {
+        if (nodes[i]->getDistanceTraveled() == currentDistTravelled - 1 && neighbors->isIncluded(nodes[i]))
+        {
+            return nodes[i];
+        }
+    }
+    return currentNode;
 }

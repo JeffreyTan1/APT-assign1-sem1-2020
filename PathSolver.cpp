@@ -4,47 +4,62 @@
 PathSolver::PathSolver()
 {
     nodesExplored = new NodeList();
+    openList = new NodeList();
+    path = new NodeList();
 }
 
 PathSolver::~PathSolver()
 {
     delete nodesExplored;
+    delete startNode;
+    delete goalNode;
+    delete currentNode;
+    delete openList;
+    delete path;
 }
 
 void PathSolver::forwardSearch(Env env)
 {
-    Node *startNode = new Node();
-    Node *goalNode = new Node();
-    Node *currentNode = new Node();
-    NodeList *openList = new NodeList();
-    NodeList *closedList = new NodeList();
+    //Initalize class variables
+    initializeAlgo(env);
 
-    initializeAlgo(startNode, goalNode, currentNode, openList, env);
-
-    while (currentNode->getRow() != goalNode->getRow() && currentNode->getCol() != goalNode->getCol())
+    while (!currentNode->isSamePosition(goalNode))
     {
-        currentNode = openList->getSmallestEstDistNode(goalNode, closedList);
-
-        searchAllDirections(currentNode, env, openList);
+        std::cout << "Iteration begin" << std::endl;
+        currentNode = openList->getSmallestEstDistNode(goalNode, nodesExplored);
+        std::cout << currentNode->getRow() << "," << currentNode->getCol() << std::endl;
+        pointAllDirections();
+        addAllDirections(env);
+        nodesExplored->addElement(currentNode);
+        std::cout << "Iteration complete" << std::endl;
     }
 
-    delete openList;
-    delete closedList;
-}
-
-NodeList *PathSolver::getNodesExplored()
-{
-    NodeList *nodesExploredCopy = new NodeList(*nodesExplored);
-    return nodesExploredCopy;
+    std::cout << "done" <<std::endl;
+    goalNode->setDistanceTraveled(currentNode->getDistanceTraveled());
+    std::cout << "setDistTravelled for goal node" <<std::endl;
+    nodesExplored->addElement(goalNode);
+    std::cout << "addElement goal node" <<std::endl;
 }
 
 NodeList *PathSolver::getPath(Env env)
 {
-    // TODO
-    return NULL;
+    currentNode = goalNode;
+    // while (currentNode->getDistanceTraveled() > 0)
+    // {
+        
+    // }
+
+    for (int i = 0; i < goalNode->getDistanceTraveled(); i++) {
+        path->addElement(currentNode);
+        currentNode = nodesExplored->searchPathNeighbors4LeastDist(currentNode, createNeighborsList());
+    }
+    
+    path->reverseList();
+    NodeList *pathCopy = new NodeList(*path);
+    return pathCopy;
 }
 
-void PathSolver::initializeAlgo(Node *startNode, Node *goalNode, Node *currentNode, NodeList *openList, Env env)
+void PathSolver::initializeAlgo(Env env)
 {
     //Read the locations of start and goal positions
     for (int i = 0; i < pow(ENV_DIM, 2); i++)
@@ -59,48 +74,61 @@ void PathSolver::initializeAlgo(Node *startNode, Node *goalNode, Node *currentNo
             goalNode = new Node(i / 20, i % 20, -1);
         }
     }
+
     //Add the start position to the openList
     openList->addElement(startNode);
     currentNode = startNode;
 }
-void PathSolver::searchAllDirections(Node *currentNode, Env env, NodeList *openList)
+
+void PathSolver::addAllDirections(Env env)
 {
-
-    Node *checkNodeUp = new Node(currentNode->getRow() + 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
-    Node *checkNodeDown = new Node(currentNode->getRow() - 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
-    Node *checkNodeLeft = new Node(currentNode->getRow(), currentNode->getCol() - 1, currentNode->getDistanceTraveled() + 1);
-    Node *checkNodeRight = new Node(currentNode->getRow(), currentNode->getCol() + 1, currentNode->getDistanceTraveled() + 1);
-
-    if (currentNode->getRow() > 0 && !openList->isIncluded(checkNodeLeft))
+    if (currentNode->getCol() > 0 && !openList->isIncluded(nodeUp))
     {
-        if (env[checkNodeLeft->getRow()][checkNodeLeft->getCol()] == SYMBOL_EMPTY)
-        {
-            openList->addElement(checkNodeLeft);
-        }
+        addElementIfEmpty(nodeUp, env);
     }
-
-    if (currentNode->getRow() < 20 && !openList->isIncluded(checkNodeRight))
+    if (currentNode->getCol() < 20 && !openList->isIncluded(nodeDown))
     {
-        if (env[checkNodeRight->getRow()][checkNodeRight->getCol()] == SYMBOL_EMPTY)
-        {
-            openList->addElement(checkNodeRight);
-        }
+        addElementIfEmpty(nodeDown, env);
     }
-
-    if (currentNode->getCol() > 0 && !openList->isIncluded(checkNodeUp))
+    if (currentNode->getRow() > 0 && !openList->isIncluded(nodeLeft))
     {
-        if (env[checkNodeUp->getRow()][checkNodeUp->getCol()] == SYMBOL_EMPTY)
-        {
-            openList->addElement(checkNodeUp);
-        }
+        addElementIfEmpty(nodeLeft, env);
     }
-
-    if (currentNode->getCol() < 20 && !openList->isIncluded(checkNodeDown))
+    if (currentNode->getRow() < 20 && !openList->isIncluded(nodeRight))
     {
-        if (env[checkNodeDown->getRow()][checkNodeDown->getCol()] == SYMBOL_EMPTY)
-        {
-            openList->addElement(checkNodeDown);
-        }
+        addElementIfEmpty(nodeRight, env);
     }
+}
+
+NodeList *PathSolver::createNeighborsList()
+{
+    NodeList *neighbors = new NodeList();
+    neighbors->addElement(nodeUp);
+    neighbors->addElement(nodeDown);
+    neighbors->addElement(nodeLeft);
+    neighbors->addElement(nodeRight);
+    return neighbors;
+}
+
+void PathSolver::addElementIfEmpty(Node *node, Env env)
+{
+    if (env[node->getRow()][node->getCol()] == SYMBOL_EMPTY || env[node->getRow()][node->getCol()] == SYMBOL_GOAL)
+    {
+        openList->addElement(node);
+    }
+}
+
+void PathSolver::pointAllDirections()
+{
+    nodeUp = new Node(currentNode->getRow() + 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
+    nodeDown = new Node(currentNode->getRow() - 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
+    nodeLeft = new Node(currentNode->getRow(), currentNode->getCol() - 1, currentNode->getDistanceTraveled() + 1);
+    nodeRight = new Node(currentNode->getRow(), currentNode->getCol() + 1, currentNode->getDistanceTraveled() + 1);
+}
+
+NodeList *PathSolver::getNodesExplored()
+{
+    NodeList *nodesExploredCopy = new NodeList(*nodesExplored);
+    return nodesExploredCopy;
 }
 //-----------------------------

@@ -44,8 +44,22 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    void initializeAlgo(Node *startNode, Node *goalNode, Node *currentNode, NodeList *openList, Env env);
-    void searchAllDirections(Node *currentNode, Env env, NodeList *openList);
+    Node *startNode;
+    Node *goalNode;
+    Node *currentNode;
+    Node *nodeUp;
+    Node *nodeDown;
+    Node *nodeLeft;
+    Node *nodeRight;
+    NodeList *openList;
+    NodeList *path;
+
+    void initializeAlgo(Env env);
+    void addAllDirections(Env env);
+    void pointAllDirections();
+    NodeList *createNeighborsList();
+
+    void addElementIfEmpty(Node *node, Env env);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER

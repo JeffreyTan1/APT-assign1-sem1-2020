@@ -33,7 +33,9 @@ public:
     /*                                           */
 
     bool isIncluded(Node *checkNode);
-    Node *getSmallestEstDistNode(Node *goalNode, NodeList *closedList);
+    Node *getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored);
+    Node *searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors);
+    void reverseList();
 
 private:
     /*                                           */
