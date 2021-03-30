@@ -2,6 +2,7 @@
 #define COSC_ASSIGN_ONE_NODE
 
 #include "Types.h"
+#include "string"
 
 class Node
 {
@@ -37,6 +38,7 @@ public:
     bool isBelow(Node *node);
     bool isToLeft(Node *node);
     bool isToRight(Node *node);
+    std::string to_string();
 
 private:
     /*                                           */

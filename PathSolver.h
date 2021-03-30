@@ -51,15 +51,18 @@ private:
     Node *nodeDown;
     Node *nodeLeft;
     Node *nodeRight;
+    NodeList *neighbors;
     NodeList *openList;
     NodeList *path;
 
     void initializeAlgo(Env env);
     void addAllDirections(Env env);
     void pointAllDirections();
-    NodeList *createNeighborsList();
-
+    NodeList *createNeighborsList(Env env);
     void addElementIfEmpty(Node *node, Env env);
+
+    void addAllDirections2(Env env);
+    void addElementIfEmpty2(Node *node, Env env);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER

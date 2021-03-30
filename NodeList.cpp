@@ -1,5 +1,6 @@
 #include "NodeList.h"
 #include <iostream>
+#define MAX_MANHATTAN_DIST 29
 
 NodeList::NodeList()
 {
@@ -63,8 +64,9 @@ Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
 
 {
     //TODO: create const for this max i.e 20root2
-    int smallestDist2Goal = 10000000;
-    Node* returnNode = new Node(-1, -1, -1);
+    //printList();
+    int smallestDist2Goal = MAX_MANHATTAN_DIST;
+    Node *returnNode = nullptr;
     for (int i = 0; i < length; i++)
     {
         int currentDist2Goal = nodes[i]->getEstimatedDist2Goal(goalNode);
@@ -79,6 +81,7 @@ Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
 
 Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors)
 {
+    neighbors->printList();
     int currentDistTravelled = currentNode->getDistanceTraveled();
     for (int i = 0; i < length; i++)
     {
@@ -87,5 +90,14 @@ Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neigh
             return nodes[i];
         }
     }
+    std::cout << "You goofed" << std::endl;
     return currentNode;
+}
+
+void NodeList::printList()
+{
+    for (int i = 0; i < length; i++)
+    {
+        std::cout << nodes[i]->to_string() << "|";
+    }
 }

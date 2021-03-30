@@ -35,16 +35,16 @@ int main(int argc, char **argv)
     // Solve using forwardSearch
     PathSolver *pathSolver = new PathSolver();
     pathSolver->forwardSearch(env);
-    std::cout << "forward search done in main now" <<std::endl;
+    std::cout << "forward search done in main now" << std::endl;
 
     NodeList *exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
-    std::cout << "explored positions done" <<std::endl;
+    std::cout << "explored positions done" << std::endl;
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList *solution = pathSolver->getPath(env);
-    std::cout << "solution assigned" <<std::endl;
+    std::cout << "solution assigned" << std::endl;
 
     printEnvStdout(env, solution);
 
@@ -65,6 +65,7 @@ void readEnvStdin(Env env)
 
 void printEnvStdout(Env env, NodeList *solution)
 {
+
     Node *prevNode = solution->getNode(0);
 
     for (int i = 1; i < solution->getLength() - 1; i++)
@@ -72,8 +73,6 @@ void printEnvStdout(Env env, NodeList *solution)
         Node *currentNode = solution->getNode(i);
         if (currentNode->isAbove(prevNode))
         {
-
-            //TODO: does the '=' even update the env? OMEGALULIGUESS
             env[currentNode->getRow()][currentNode->getCol()] = '^';
         }
         if (currentNode->isBelow(prevNode))

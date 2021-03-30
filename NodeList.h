@@ -52,6 +52,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    void printList();
 };
 
 #endif //COSC_ASSIGN_ONE_NODELIST

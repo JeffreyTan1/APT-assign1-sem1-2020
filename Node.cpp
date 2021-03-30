@@ -1,5 +1,6 @@
 #include "Node.h"
 #include <iostream>
+#include <string>
 
 Node::Node(int row, int col, int dist_traveled) : row(row),
                                                   col(col),
@@ -84,4 +85,9 @@ bool Node::isToRight(Node *node)
     return false;
 }
 
+std::string Node::to_string()
+{
+    std::string string = "[" + std::to_string(row) + ", " + std::to_string(col) + "]" + " Dt:" + std::to_string(dist_traveled);
+    return string;
+}
 //--------------------------------
