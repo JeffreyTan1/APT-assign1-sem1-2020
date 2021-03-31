@@ -53,7 +53,7 @@ bool Node::isSamePosition(Node *checkNode)
 
 bool Node::isAbove(Node *node)
 {
-    if (this->col == node->getCol() + 1)
+    if (this->row == node->getRow() - 1)
     {
         return true;
     }
@@ -62,7 +62,7 @@ bool Node::isAbove(Node *node)
 
 bool Node::isBelow(Node *node)
 {
-    if (this->col == node->getCol() - 1)
+    if (this->row == node->getRow() + 1)
     {
         return true;
     }
@@ -70,7 +70,7 @@ bool Node::isBelow(Node *node)
 }
 bool Node::isToLeft(Node *node)
 {
-    if (this->row == node->getRow() - 1)
+    if (this->col == node->getCol() - 1)
     {
         return true;
     }
@@ -78,7 +78,7 @@ bool Node::isToLeft(Node *node)
 }
 bool Node::isToRight(Node *node)
 {
-    if (this->row == node->getRow() + 1)
+    if (this->col == node->getCol() + 1)
     {
         return true;
     }

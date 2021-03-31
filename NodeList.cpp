@@ -1,6 +1,6 @@
 #include "NodeList.h"
 #include <iostream>
-#define MAX_MANHATTAN_DIST 29
+#define MAX_MANHATTAN_DIST 1000000
 
 NodeList::NodeList()
 {
@@ -87,6 +87,8 @@ Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neigh
     {
         if (nodes[i]->getDistanceTraveled() == currentDistTravelled - 1 && neighbors->isIncluded(nodes[i]))
         {
+            std::cout << "Next node to add" << nodes[i]->to_string() << std::endl;
+            std::cout << std::endl;
             return nodes[i];
         }
     }
@@ -100,4 +102,5 @@ void NodeList::printList()
     {
         std::cout << nodes[i]->to_string() << "|";
     }
+    std::cout << "Print done" << std::endl;
 }

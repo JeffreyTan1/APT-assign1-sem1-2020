@@ -46,6 +46,8 @@ int main(int argc, char **argv)
     NodeList *solution = pathSolver->getPath(env);
     std::cout << "solution assigned" << std::endl;
 
+    solution->printList();
+
     printEnvStdout(env, solution);
 
     delete pathSolver;
@@ -68,7 +70,7 @@ void printEnvStdout(Env env, NodeList *solution)
 
     Node *prevNode = solution->getNode(0);
 
-    for (int i = 1; i < solution->getLength() - 1; i++)
+    for (int i = 0; i < solution->getLength() - 1; i++)
     {
         Node *currentNode = solution->getNode(i);
         if (currentNode->isAbove(prevNode))

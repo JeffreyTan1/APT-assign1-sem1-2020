@@ -31,7 +31,7 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-
+    void printList();
     bool isIncluded(Node *checkNode);
     Node *getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored);
     Node *searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors);
@@ -52,7 +52,6 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    void printList();
 };
 
 #endif //COSC_ASSIGN_ONE_NODELIST

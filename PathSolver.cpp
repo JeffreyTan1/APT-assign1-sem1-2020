@@ -13,7 +13,10 @@ PathSolver::~PathSolver()
     delete nodesExplored;
     delete startNode;
     delete goalNode;
-    delete currentNode;
+    delete nodeUp;
+    delete nodeDown;
+    delete nodeLeft;
+    delete nodeRight;
     delete openList;
     delete path;
     delete neighbors;
@@ -27,7 +30,7 @@ void PathSolver::forwardSearch(Env env)
     while (!currentNode->isSamePosition(goalNode))
     {
         currentNode = openList->getSmallestEstDistNode(goalNode, nodesExplored);
-        std::cout << "[" << currentNode->getRow() << "," << currentNode->getCol() << "]" << std::endl;
+        std::cout << currentNode->to_string() << std::endl;
         pointAllDirections();
         addAllDirections(env);
         nodesExplored->addElement(currentNode);
@@ -44,11 +47,10 @@ NodeList *PathSolver::getPath(Env env)
 {
     currentNode = goalNode;
 
-    for (int i = 0; i < goalNode->getDistanceTraveled(); i++)
+    for (int i = 0; i < goalNode->getDistanceTraveled() + 1; i++)
     {
         path->addElement(currentNode);
         currentNode = nodesExplored->searchPathNeighbors4LeastDist(currentNode, createNeighborsList(env));
-        std::cout << currentNode->to_string() << std::endl;
     }
 
     path->reverseList();
@@ -149,10 +151,10 @@ void PathSolver::addAllDirections2(Env env)
 
 void PathSolver::addElementIfEmpty2(Node *node, Env env)
 {
-    if (env[node->getRow()][node->getCol()] == SYMBOL_EMPTY || env[node->getRow()][node->getCol()] == SYMBOL_GOAL)
+    if (env[node->getRow()][node->getCol()] == SYMBOL_EMPTY || env[node->getRow()][node->getCol()] == SYMBOL_START)
     {
         neighbors->addElement(node);
     }
 }
 
-//-----------------------------
+//-----------------------------``
