@@ -30,7 +30,7 @@ void PathSolver::forwardSearch(Env env)
     while (!currentNode->isSamePosition(goalNode))
     {
         currentNode = openList->getSmallestEstDistNode(goalNode, nodesExplored);
-        std::cout << currentNode->to_string() << std::endl;
+        // std::cout << currentNode->to_string() << std::endl;
         pointAllDirections();
         addAllDirections(env);
         nodesExplored->addElement(currentNode);
@@ -78,6 +78,13 @@ void PathSolver::initializeAlgo(Env env)
     openList->addElement(startNode);
     currentNode = startNode;
 }
+void PathSolver::pointAllDirections()
+{
+    nodeUp = new Node(currentNode->getRow() - 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
+    nodeDown = new Node(currentNode->getRow() + 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
+    nodeLeft = new Node(currentNode->getRow(), currentNode->getCol() - 1, currentNode->getDistanceTraveled() + 1);
+    nodeRight = new Node(currentNode->getRow(), currentNode->getCol() + 1, currentNode->getDistanceTraveled() + 1);
+}
 
 void PathSolver::addAllDirections(Env env)
 {
@@ -85,17 +92,33 @@ void PathSolver::addAllDirections(Env env)
     {
         addElementIfEmpty(nodeLeft, env);
     }
+    else
+    {
+        delete nodeLeft;
+    }
     if (currentNode->getCol() < 20 && !openList->isIncluded(nodeRight))
     {
         addElementIfEmpty(nodeRight, env);
+    }
+    else
+    {
+        delete nodeRight;
     }
     if (currentNode->getRow() > 0 && !openList->isIncluded(nodeUp))
     {
         addElementIfEmpty(nodeUp, env);
     }
+    else
+    {
+        delete nodeUp;
+    }
     if (currentNode->getRow() < 20 && !openList->isIncluded(nodeDown))
     {
         addElementIfEmpty(nodeDown, env);
+    }
+    else
+    {
+        delete nodeDown;
     }
 }
 
@@ -113,14 +136,6 @@ NodeList *PathSolver::createNeighborsList(Env env)
     pointAllDirections();
     addAllDirections2(env);
     return neighbors;
-}
-
-void PathSolver::pointAllDirections()
-{
-    nodeUp = new Node(currentNode->getRow() - 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
-    nodeDown = new Node(currentNode->getRow() + 1, currentNode->getCol(), currentNode->getDistanceTraveled() + 1);
-    nodeLeft = new Node(currentNode->getRow(), currentNode->getCol() - 1, currentNode->getDistanceTraveled() + 1);
-    nodeRight = new Node(currentNode->getRow(), currentNode->getCol() + 1, currentNode->getDistanceTraveled() + 1);
 }
 
 NodeList *PathSolver::getNodesExplored()
@@ -157,4 +172,4 @@ void PathSolver::addElementIfEmpty2(Node *node, Env env)
     }
 }
 
-//-----------------------------``
+//-----------------------------

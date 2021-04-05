@@ -1,6 +1,6 @@
 #include "NodeList.h"
 #include <iostream>
-#define MAX_MANHATTAN_DIST 1000000
+#define MAX_EST_DIST 1000000
 
 NodeList::NodeList()
 {
@@ -46,6 +46,7 @@ void NodeList::reverseList()
     {
         nodes[i] = tempList->getNode(length - 1 - i);
     }
+    delete tempList;
 }
 
 bool NodeList::isIncluded(Node *checkNode)
@@ -60,12 +61,13 @@ bool NodeList::isIncluded(Node *checkNode)
     return false;
 }
 
+//Called on the openList to find node with smallest manhattan
 Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
 
 {
     //TODO: create const for this max i.e 20root2
     //printList();
-    int smallestDist2Goal = MAX_MANHATTAN_DIST;
+    int smallestDist2Goal = MAX_EST_DIST;
     Node *returnNode = nullptr;
     for (int i = 0; i < length; i++)
     {
@@ -87,12 +89,12 @@ Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neigh
     {
         if (nodes[i]->getDistanceTraveled() == currentDistTravelled - 1 && neighbors->isIncluded(nodes[i]))
         {
-            std::cout << "Next node to add" << nodes[i]->to_string() << std::endl;
-            std::cout << std::endl;
+            // std::cout << "Next node to add" << nodes[i]->to_string() << std::endl;
+            // std::cout << std::endl;
             return nodes[i];
         }
     }
-    std::cout << "You goofed" << std::endl;
+    // std::cout << "You goofed" << std::endl;
     return currentNode;
 }
 
