@@ -7,6 +7,12 @@
 // REMEMBER: in a environment, the location (x,y) is found by maze[y][x]!
 typedef char **Env;
 
+#define NEIGHBORS_LIST_SIZE 4
+
+extern int maxSize;
+extern int rows;
+extern int cols;
+
 #define SYMBOL_WALL '='
 #define SYMBOL_EMPTY '.'
 #define SYMBOL_GOAL 'G'

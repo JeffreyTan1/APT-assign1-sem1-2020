@@ -33,8 +33,6 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
-    PathSolver(int maxSize, int rows, int cols);
-
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */
@@ -57,17 +55,28 @@ private:
     NodeList *openList;
     NodeList *path;
 
-    int maxSize;
-    int rows;
-    int cols;
+    //Sets up pointers to nodes and updates lists
+    void initializeAlgoVars(Env env);
 
-    void initializeAlgo(Env env);
-    void addAllDirections(Env env);
+    //Sets node(up,down,left,right) pointers to
+    //New nodes in each direction
     void pointAllDirections();
-    NodeList *createNeighborsList(Env env);
+
+    //Adds nodes to openList if maze co-ord is empty
+    //If not, then deletes node.
+    void addAllDirections(Env env);
+
+    //Called by addAllDirections to add node to openlist
     void addElementIfEmpty(Node *node, Env env);
 
+    //Sets neighbours list that is used by getPath
+    void createNeighborsList(Env env);
+
+    //Called by createNeighborsList to add nodes to
+    //neighbors list.
     void addAllDirections2(Env env);
+
+    //Called by addAllDirections2 to add node to neighbors list
     void addElementIfEmpty2(Node *node, Env env);
 };
 

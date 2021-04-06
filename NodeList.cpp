@@ -1,29 +1,31 @@
 #include "NodeList.h"
 #include <iostream>
-#define MAX_EST_DIST 1000000
+#include <math.h>
 
 NodeList::NodeList()
-{
-    length = 0;
-}
-NodeList::NodeList(int maxSize) : maxSize(maxSize)
 {
     length = 0;
     nodes = new Node *[maxSize];
 }
 
+NodeList::NodeList(int size)
+{
+    length = 0;
+    nodes = new Node *[size];
+}
+
 NodeList::~NodeList()
 {
-    //delete[] nodes;
+    delete[] nodes;
 }
 
 NodeList::NodeList(NodeList &other)
 {
+    nodes = new Node *[maxSize];
     for (int i = 0; i < other.length; i++)
     {
-        nodes[i] = other.getNode(i);
+        nodes[i] = other.nodes[i];
     }
-    maxSize = other.maxSize;
     length = other.getLength();
 }
 
@@ -65,12 +67,11 @@ bool NodeList::isIncluded(Node *checkNode)
     return false;
 }
 
-//Called on the openList to find node with smallest manhattan
 Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
-
 {
-    //TODO: create const for this max i.e 20root2
-    //printList();
+    //largest possible estimated distance is if the node and goal are on opposite diagonals
+    const int MAX_EST_DIST = pow(pow(cols, 2) + pow(rows, 2), 0.5) + 1;
+
     int smallestDist2Goal = MAX_EST_DIST;
     Node *returnNode = nullptr;
     for (int i = 0; i < length; i++)
@@ -87,38 +88,13 @@ Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
 
 Node *NodeList::searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors)
 {
-    neighbors->printList();
     int currentDistTravelled = currentNode->getDistanceTraveled();
     for (int i = 0; i < length; i++)
     {
         if (nodes[i]->getDistanceTraveled() == currentDistTravelled - 1 && neighbors->isIncluded(nodes[i]))
         {
-            // std::cout << "Next node to add" << nodes[i]->to_string() << std::endl;
-            // std::cout << std::endl;
             return nodes[i];
         }
     }
-    // std::cout << "You goofed" << std::endl;
     return currentNode;
-}
-
-void NodeList::printList()
-{
-    for (int i = 0; i < length; i++)
-    {
-        std::cout << nodes[i]->to_string() << "|";
-    }
-    std::cout << "Print done" << std::endl;
-}
-
-void NodeList::printList(NodeList *nodesExplored)
-{
-    for (int i = 0; i < length; i++)
-    {
-        if (!nodesExplored->isIncluded(nodes[i]))
-        {
-            std::cout << nodes[i]->to_string() << "|";
-        }
-    }
-    std::cout << "Print done" << std::endl;
 }

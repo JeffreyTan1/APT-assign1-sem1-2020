@@ -14,8 +14,7 @@ public:
     // Constructor/Desctructor
     Node(int row, int col, int dist_traveled);
     ~Node();
-    
-    
+
     // get row-coodinate of the node
     int getRow();
 
@@ -32,13 +31,14 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-
+    //Returns true if co-ords are equal
     bool isSamePosition(Node *checkNode);
+
+    //Returns true if above... below... and so on
     bool isAbove(Node *node);
     bool isBelow(Node *node);
     bool isToLeft(Node *node);
     bool isToRight(Node *node);
-    std::string to_string();
 
 private:
     /*                                           */

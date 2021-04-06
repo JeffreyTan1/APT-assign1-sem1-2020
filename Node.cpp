@@ -10,7 +10,6 @@ Node::Node(int row, int col, int dist_traveled) : row(row),
 
 Node::~Node()
 {
-    //Do nothing
 }
 
 int Node::getRow()
@@ -35,19 +34,19 @@ void Node::setDistanceTraveled(int dist_traveled)
 
 int Node::getEstimatedDist2Goal(Node *goal)
 {
-    //distance_travelled + Manhattan distance from point p to G
+    //Estimated distance to goal is defined as
+    //distance_travelled plus Manhattan distance to goal
     return dist_traveled + abs(col - goal->getCol()) + abs(row - goal->getRow());
 }
 
 bool Node::isSamePosition(Node *checkNode)
 {
-
     if (col == checkNode->getCol() && row == checkNode->getRow())
     {
-        std::cout << "isSamePosition true" << std::endl;
+
         return true;
     }
-    std::cout << "isSamePosition false" << std::endl;
+
     return false;
 }
 
@@ -83,11 +82,5 @@ bool Node::isToRight(Node *node)
         return true;
     }
     return false;
-}
-
-std::string Node::to_string()
-{
-    std::string string = "[" + std::to_string(row) + ", " + std::to_string(col) + "]" + " Dt:" + std::to_string(dist_traveled);
-    return string;
 }
 //--------------------------------

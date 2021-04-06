@@ -1,3 +1,22 @@
+/**
+ * Description of my approach:
+ * In my forward search, the loop relies on 2 methods.
+ * 1. pointAllDirections() 
+ * which sets pointers to arbitrary nodes up/down/left/right of current node p
+ * 2. addAllDirections()
+ * which adds those nodes to the openlist if the env has an open space or goal
+ * 
+ * In my get path, I create a list of 4 elements called neighbors which contains
+ * nodes u/d/l/r of the current node if they exist. Then this list is compared with
+ * the closed list to find the next node backwards.
+ * 
+ * Issues encountered:
+ * Segmentation faults were plentiful, mainly caused by not giving the correct
+ * termination condition in the for loops.
+ * On the brightside it made be really good at using GDB
+ * 
+*/
+
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -19,19 +38,22 @@ void readEnvStdin();
 // To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList *solution);
 
-//Milestone 4 method
+//Implemented for Milestone 4
 Env make_env(const int rows, const int cols);
+void delete_env(Env env, int rows, int cols);
 
-int maxSize;
-int mRows;
-int mCols;
 Env env;
+
+//Variables for the dimensions of input env.
+//Are shared to all files through Types.h
+int maxSize;
+int rows;
+int cols;
 
 int main(int argc, char **argv)
 {
 
     // Load Environment
-
     readEnvStdin();
 
     // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
@@ -41,56 +63,52 @@ int main(int argc, char **argv)
     //           << std::endl;
 
     // Solve using forwardSearch
-    PathSolver *pathSolver = new PathSolver(maxSize, mRows, mCols);
+    PathSolver *pathSolver = new PathSolver();
     pathSolver->forwardSearch(env);
-    std::cout << "forward search done in main now" << std::endl;
 
-    // NodeList *exploredPositions = nullptr;
-    // exploredPositions = pathSolver->getNodesExplored();
-    // std::cout << "explored positions done" << std::endl;
+    NodeList *exploredPositions = nullptr;
+    exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     NodeList *solution = pathSolver->getPath(env);
-    std::cout << "solution assigned" << std::endl;
 
-    solution->printList();
-
+    // Print the maze with the path drawn out
     printEnvStdout(env, solution);
 
     delete pathSolver;
-    //delete exploredPositions;
-    //delete solution;
+    delete exploredPositions;
+    delete solution;
+    delete_env(env, rows, cols);
     return EXIT_SUCCESS;
 }
 
 void readEnvStdin()
 {
     char c;
-    int rows = 0;
-    int chars = 0;
+    int rowCount = 0;
+    int charCount = 0;
 
+    //read input to find the number of rows and columns
     while (!std::cin.eof())
     {
         std::cin.get(c);
         if (c == '\n')
         {
-            rows++;
+            rowCount++;
         }
         else
         {
-            chars++;
+            charCount++;
         }
     }
     //last line doesn't end in a \n but is still a row
-    rows++;
+    rowCount++;
     //at eof we shouldn't add the extra character even though no \n is found
-    chars--;
+    charCount--;
 
-    int cols = chars / rows;
-
+    rows = rowCount;
+    cols = charCount / rowCount;
     maxSize = rows * cols;
-    mRows = rows;
-    mCols = cols;
 
     env = make_env(rows, cols);
 
@@ -98,53 +116,22 @@ void readEnvStdin()
     std::cin.clear();
     std::cin.seekg(0);
 
-    for (int i = 0; i < mRows; i++)
+    //read input and set characters to env
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < mCols; j++)
+        for (int j = 0; j < cols; j++)
         {
             std::cin >> c;
             env[i][j] = c;
         }
     }
-
-    // for (int i = 0; i < mRows; i++)
-    // {
-    //     for (int j = 0; j < mCols; j++)
-    //     {
-    //         std::cout << '=' << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-
-    // for (int i = 0; i < maxSize; i++)
-    // {
-    //     std::cin >> c;
-    //     std::cout << c << std::endl;
-    //     env[i / (rows)][i % (cols)] = c;
-    // }
-}
-
-Env make_env(const int rows, const int cols)
-{
-    Env env = nullptr;
-
-    if (rows >= 0 && cols >= 0)
-    {
-        env = new char *[rows];
-        for (int i = 0; i != rows; ++i)
-        {
-            env[i] = new char[cols];
-        }
-    }
-
-    return env;
 }
 
 void printEnvStdout(Env env, NodeList *solution)
 {
 
     Node *prevNode = solution->getNode(0);
-
+    //Loop through solution list and add appropriate arrow characters
     for (int i = 0; i < solution->getLength() - 1; i++)
     {
         Node *currentNode = solution->getNode(i);
@@ -168,14 +155,45 @@ void printEnvStdout(Env env, NodeList *solution)
         prevNode = currentNode;
     }
 
-    for (int i = 0; i < mRows; i++)
+    //Print env
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < mCols; j++)
+        for (int j = 0; j < cols; j++)
         {
             std::cout << env[i][j];
         }
         std::cout << std::endl;
     }
+}
+
+Env make_env(const int rows, const int cols)
+{
+    Env env = nullptr;
+
+    if (rows >= 0 && cols >= 0)
+    {
+        env = new char *[rows];
+        for (int i = 0; i != rows; ++i)
+        {
+            env[i] = new char[cols];
+        }
+    }
+
+    return env;
+}
+
+void delete_env(Env env, int rows, int cols)
+{
+    if (rows >= 0 && cols >= 0)
+    {
+        for (int i = 0; i != rows; ++i)
+        {
+            delete env[i];
+        }
+        delete env;
+    }
+
+    return;
 }
 
 void testNode()
