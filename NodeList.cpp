@@ -6,20 +6,24 @@ NodeList::NodeList()
 {
     length = 0;
 }
+NodeList::NodeList(int maxSize) : maxSize(maxSize)
+{
+    length = 0;
+    nodes = new Node *[maxSize];
+}
 
 NodeList::~NodeList()
 {
-    //do nothing
+    //delete[] nodes;
 }
 
-//TODO: Is this copy constructor even done?
 NodeList::NodeList(NodeList &other)
 {
     for (int i = 0; i < other.length; i++)
     {
         nodes[i] = other.getNode(i);
     }
-
+    maxSize = other.maxSize;
     length = other.getLength();
 }
 
@@ -103,6 +107,18 @@ void NodeList::printList()
     for (int i = 0; i < length; i++)
     {
         std::cout << nodes[i]->to_string() << "|";
+    }
+    std::cout << "Print done" << std::endl;
+}
+
+void NodeList::printList(NodeList *nodesExplored)
+{
+    for (int i = 0; i < length; i++)
+    {
+        if (!nodesExplored->isIncluded(nodes[i]))
+        {
+            std::cout << nodes[i]->to_string() << "|";
+        }
     }
     std::cout << "Print done" << std::endl;
 }

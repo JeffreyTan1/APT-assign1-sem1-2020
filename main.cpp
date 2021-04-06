@@ -13,14 +13,26 @@ void testNode();
 void testNodeList();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env);
+void readEnvStdin();
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList *solution);
 
+//Milestone 4 method
+Env make_env(const int rows, const int cols);
+
+int maxSize;
+int mRows;
+int mCols;
+Env env;
+
 int main(int argc, char **argv)
 {
+
+    // Load Environment
+
+    readEnvStdin();
 
     // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
     // testNode();
@@ -28,21 +40,16 @@ int main(int argc, char **argv)
     // std::cout << "DONE TESTING" << std::endl
     //           << std::endl;
 
-    // Load Environment
-    Env env;
-    readEnvStdin(env);
-
     // Solve using forwardSearch
-    PathSolver *pathSolver = new PathSolver();
+    PathSolver *pathSolver = new PathSolver(maxSize, mRows, mCols);
     pathSolver->forwardSearch(env);
     std::cout << "forward search done in main now" << std::endl;
 
-    NodeList *exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
-    std::cout << "explored positions done" << std::endl;
+    // NodeList *exploredPositions = nullptr;
+    // exploredPositions = pathSolver->getNodesExplored();
+    // std::cout << "explored positions done" << std::endl;
 
     // Get the path
-    // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList *solution = pathSolver->getPath(env);
     std::cout << "solution assigned" << std::endl;
 
@@ -51,18 +58,86 @@ int main(int argc, char **argv)
     printEnvStdout(env, solution);
 
     delete pathSolver;
-    delete exploredPositions;
-    delete solution;
+    //delete exploredPositions;
+    //delete solution;
+    return EXIT_SUCCESS;
 }
 
-void readEnvStdin(Env env)
+void readEnvStdin()
 {
     char c;
-    for (int i = 0; i < pow(ENV_DIM, 2); i++)
+    int rows = 0;
+    int chars = 0;
+
+    while (!std::cin.eof())
     {
-        std::cin >> c;
-        env[i / 20][i % 20] = c;
+        std::cin.get(c);
+        if (c == '\n')
+        {
+            rows++;
+        }
+        else
+        {
+            chars++;
+        }
     }
+    //last line doesn't end in a \n but is still a row
+    rows++;
+    //at eof we shouldn't add the extra character even though no \n is found
+    chars--;
+
+    int cols = chars / rows;
+
+    maxSize = rows * cols;
+    mRows = rows;
+    mCols = cols;
+
+    env = make_env(rows, cols);
+
+    //read from the beginning of input again
+    std::cin.clear();
+    std::cin.seekg(0);
+
+    for (int i = 0; i < mRows; i++)
+    {
+        for (int j = 0; j < mCols; j++)
+        {
+            std::cin >> c;
+            env[i][j] = c;
+        }
+    }
+
+    // for (int i = 0; i < mRows; i++)
+    // {
+    //     for (int j = 0; j < mCols; j++)
+    //     {
+    //         std::cout << '=' << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+
+    // for (int i = 0; i < maxSize; i++)
+    // {
+    //     std::cin >> c;
+    //     std::cout << c << std::endl;
+    //     env[i / (rows)][i % (cols)] = c;
+    // }
+}
+
+Env make_env(const int rows, const int cols)
+{
+    Env env = nullptr;
+
+    if (rows >= 0 && cols >= 0)
+    {
+        env = new char *[rows];
+        for (int i = 0; i != rows; ++i)
+        {
+            env[i] = new char[cols];
+        }
+    }
+
+    return env;
 }
 
 void printEnvStdout(Env env, NodeList *solution)
@@ -93,11 +168,11 @@ void printEnvStdout(Env env, NodeList *solution)
         prevNode = currentNode;
     }
 
-    for (int i = 0; i < ENV_DIM; i++)
+    for (int i = 0; i < mRows; i++)
     {
-        for (int j = 0; j < ENV_DIM; j++)
+        for (int j = 0; j < mCols; j++)
         {
-            std::cout << env[i][j] << " ";
+            std::cout << env[i][j];
         }
         std::cout << std::endl;
     }
@@ -127,7 +202,7 @@ void testNodeList()
     std::cout << "TESTING NodeList" << std::endl;
 
     // Make a simple NodeList, should be empty size
-    NodeList *nodeList = new NodeList();
+    NodeList *nodeList = new NodeList(maxSize);
     std::cout << "NodeList size: " << nodeList->getLength() << std::endl;
 
     // Add a Node to the NodeList, print size

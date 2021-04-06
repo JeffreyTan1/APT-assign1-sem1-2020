@@ -33,6 +33,8 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    PathSolver(int maxSize, int rows, int cols);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */
@@ -54,6 +56,10 @@ private:
     NodeList *neighbors;
     NodeList *openList;
     NodeList *path;
+
+    int maxSize;
+    int rows;
+    int cols;
 
     void initializeAlgo(Env env);
     void addAllDirections(Env env);

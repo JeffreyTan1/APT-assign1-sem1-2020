@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Apr  5 14:42:22 2021
+# Make data base, printed on Tue Apr  6 12:58:17 2021
 
 # Variables
 
@@ -55,7 +55,7 @@ PATH = /root/.vscode-server/bin/c185983a683d14c396952dd432459097bc7f757f/bin:/us
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ce96149f-4e5b-45f5-81a3-5907237a229b.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-781163ca-c748-475c-8e84-4c319a700706.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -69,7 +69,7 @@ PWD = /mnt/c/Users/tanma/Google Drive/Synced Desktop/Y2S1/APT Files/Assignments/
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/14_interop
+WSL_INTEROP = /run/WSL/11_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
 # environment
@@ -144,10 +144,8 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=68/1024=7%, Rehash=0, Collisions=4/96=4%
+# Load=67/1024=7%, Rehash=0, Collisions=4/92=4%
 
 # Pattern-specific Variable Values
 
@@ -174,14 +172,12 @@ all: assign1
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  Successfully updated.
 
 # Not a target:
 NodeList.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2021-04-05 14:40:18.5793536
+#  Last modified 2021-04-05 22:29:11.8558188
 #  File has been updated.
 #  Successfully updated.
 
@@ -193,57 +189,47 @@ NodeList.cpp:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-03-29 12:47:03
+#  Last modified 2021-04-05 22:57:52.4511303
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
-PathSolver.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+main.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2021-04-06 12:53:49.7599981
+#  File has been updated.
+#  Successfully updated.
+
+PathSolver.o: PathSolver.cpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'PathSolver'
+#  Last modified 2021-04-06 12:55:09.1184048
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 12):
+	g++ -Wall -Werror -std=c++14 -g -O -c $^
 
 # Not a target:
 Node.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2021-03-31 17:06:38.0994822
+#  Last modified 2021-04-05 15:23:30.6215825
 #  File has been updated.
 #  Successfully updated.
 
 assign1: Node.o NodeList.o PathSolver.o main.o
 #  Implicit rule search has not been done.
-#  Last modified 2021-04-02 17:39:34.3135701
+#  Last modified 2021-04-06 12:55:09.6946102
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 9):
 	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
 
 NodeList.o: NodeList.cpp
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'NodeList'
-#  Last modified 2021-03-31 17:46:01.0869509
+#  Last modified 2021-04-05 22:57:42.5560462
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := NodeList.o
-# automatic
-# % := 
-# automatic
-# * := NodeList
-# automatic
-# + := NodeList.cpp
-# automatic
-# | := 
-# automatic
-# < := NodeList.cpp
-# automatic
-# ^ := NodeList.cpp
-# automatic
-# ? := NodeList.cpp
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 12):
 	g++ -Wall -Werror -std=c++14 -g -O -c $^
 
@@ -260,36 +246,46 @@ clean:
 #  recipe to execute (from 'Makefile', line 6):
 	rm -f assign1 *.o
 
-# Not a target:
-main.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+main.o: main.cpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'main'
+#  Last modified 2021-04-06 12:55:09.4246109
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 12):
+	g++ -Wall -Werror -std=c++14 -g -O -c $^
 
 Node.o: Node.cpp
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'Node'
-#  Last modified 2021-03-31 17:06:42.4250059
+#  Last modified 2021-04-05 22:57:42.3130463
 #  File has been updated.
 #  Successfully updated.
- 
 #  recipe to execute (from 'Makefile', line 12):
 	g++ -Wall -Werror -std=c++14 -g -O -c $^
 
+# Not a target:
+PathSolver.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2021-04-06 12:55:01.8199296
+#  File has been updated.
+#  Successfully updated.
+
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/37=0%
+# Load=15/1024=1%, Rehash=0, Collisions=0/45=0%
 # VPATH Search Paths
 
+ 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 32 / storage = 282 B / avg = 8 B
-# current buf: size = 8162 B / used = 282 B / count = 32 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 34 / storage = 298 B / avg = 8 B
+# current buf: size = 8162 B / used = 298 B / count = 34 / avg = 8 B
 
-# strcache performance: lookups = 52 / hit rate = 38%
+# strcache performance: lookups = 58 / hit rate = 41%
 # hash-table stats:
-# Load=32/8192=0%, Rehash=0, Collisions=1/52=2%
-# Finished Make data base on Mon Apr  5 14:42:22 2021
+# Load=34/8192=0%, Rehash=0, Collisions=1/58=2%
+# Finished Make data base on Tue Apr  6 12:58:17 2021
 
  

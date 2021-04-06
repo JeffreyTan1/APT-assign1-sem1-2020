@@ -31,7 +31,9 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    NodeList(int maxSize);
     void printList();
+    void printList(NodeList *nodesExplored);
     bool isIncluded(Node *checkNode);
     Node *getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored);
     Node *searchPathNeighbors4LeastDist(Node *currentNode, NodeList *neighbors);
@@ -44,7 +46,7 @@ private:
 
     // NodeList: list of node objects
     // You may assume a fixed size for M1, M2, M3
-    Node *nodes[NODE_LIST_ARRAY_MAX_SIZE];
+    Node **nodes;
 
     // Number of nodes currently in the NodeList
     int length;
@@ -52,6 +54,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    int maxSize;
 };
 
 #endif //COSC_ASSIGN_ONE_NODELIST
