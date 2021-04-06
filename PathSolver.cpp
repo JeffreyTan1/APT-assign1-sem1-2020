@@ -13,13 +13,14 @@ PathSolver::~PathSolver()
     delete nodesExplored;
     delete startNode;
     delete goalNode;
-    delete nodeUp;
-    delete nodeDown;
-    delete nodeLeft;
-    delete nodeRight;
     delete openList;
     delete path;
     delete neighbors;
+
+    delete nodeLeft;
+    delete nodeRight;
+    delete nodeUp;
+    delete nodeDown;
 }
 
 void PathSolver::forwardSearch(Env env)
@@ -28,6 +29,7 @@ void PathSolver::forwardSearch(Env env)
 
     while (!currentNode->isSamePosition(goalNode))
     {
+
         currentNode = openList->getSmallestEstDistNode(goalNode, nodesExplored);
         pointAllDirections();
         addAllDirections(env);
@@ -98,6 +100,7 @@ void PathSolver::addAllDirections(Env env)
     else
     {
         delete nodeLeft;
+        nodeLeft = nullptr;
     }
     if (currentNode->getCol() < (cols - 1) && !openList->isIncluded(nodeRight))
     {
@@ -106,6 +109,7 @@ void PathSolver::addAllDirections(Env env)
     else
     {
         delete nodeRight;
+        nodeRight = nullptr;
     }
     if (currentNode->getRow() > 0 && !openList->isIncluded(nodeUp))
     {
@@ -114,6 +118,7 @@ void PathSolver::addAllDirections(Env env)
     else
     {
         delete nodeUp;
+        nodeUp = nullptr;
     }
     if (currentNode->getRow() < (rows - 1) && !openList->isIncluded(nodeDown))
     {
@@ -122,6 +127,7 @@ void PathSolver::addAllDirections(Env env)
     else
     {
         delete nodeDown;
+        nodeDown = nullptr;
     }
 }
 
@@ -149,6 +155,7 @@ void PathSolver::addAllDirections2(Env env)
     else
     {
         delete nodeLeft;
+        nodeLeft = nullptr;
     }
     if (currentNode->getCol() < (cols - 1))
     {
@@ -157,6 +164,7 @@ void PathSolver::addAllDirections2(Env env)
     else
     {
         delete nodeRight;
+        nodeRight = nullptr;
     }
     if (currentNode->getRow() > 0)
     {
@@ -165,6 +173,7 @@ void PathSolver::addAllDirections2(Env env)
     else
     {
         delete nodeUp;
+        nodeUp = nullptr;
     }
     if (currentNode->getRow() < (rows - 1))
     {
@@ -173,6 +182,7 @@ void PathSolver::addAllDirections2(Env env)
     else
     {
         delete nodeDown;
+        nodeDown = nullptr;
     }
 }
 

@@ -53,6 +53,7 @@ void NodeList::reverseList()
         nodes[i] = tempList->getNode(length - 1 - i);
     }
     delete tempList;
+    tempList = nullptr;
 }
 
 bool NodeList::isIncluded(Node *checkNode)
@@ -69,8 +70,7 @@ bool NodeList::isIncluded(Node *checkNode)
 
 Node *NodeList::getSmallestEstDistNode(Node *goalNode, NodeList *nodesExplored)
 {
-    //largest possible estimated distance is if the node and goal are on opposite diagonals
-    const int MAX_EST_DIST = pow(pow(cols, 2) + pow(rows, 2), 0.5) + 1;
+    const int MAX_EST_DIST = maxSize;
 
     int smallestDist2Goal = MAX_EST_DIST;
     Node *returnNode = nullptr;
