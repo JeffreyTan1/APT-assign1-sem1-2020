@@ -1,8 +1,10 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/mnt/c/Users/tanma/Google Drive/Synced Desktop/Y2S1/APT Files/Assignments/1/assign1'
 g++ -Wall -Werror -std=c++14 -g -O -c Node.cpp
+ 
 g++ -Wall -Werror -std=c++14 -g -O -c NodeList.cpp
 g++ -Wall -Werror -std=c++14 -g -O -c PathSolver.cpp
+ 
 g++ -Wall -Werror -std=c++14 -g -O -c main.cpp
 g++ -Wall -Werror -std=c++14 -g -O -o assign1 Node.o NodeList.o PathSolver.o main.o
 make: Leaving directory '/mnt/c/Users/tanma/Google Drive/Synced Desktop/Y2S1/APT Files/Assignments/1/assign1'

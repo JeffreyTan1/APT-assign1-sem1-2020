@@ -162,7 +162,10 @@ void printEnvStdout(Env env, NodeList *solution)
         {
             std::cout << env[i][j];
         }
-        std::cout << std::endl;
+        if (!(i == rows - 1))
+        {
+            std::cout << std::endl;
+        }
     }
 }
 
